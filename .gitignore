@@ -19,3 +19,9 @@ DynamicProgramming/.vs/DynamicProgramming/v17/.suo
 *.enc
 DynamicProgramming/DynamicProgramming/x64/Debug/DynamicProgramming.vcxproj.FileListAbsolute.txt
 *.recipe
+main.cpp
+DynamicProgramming/DynamicProgramming/main.cpp
+DynamicProgramming/DynamicProgramming/main.cpp
+*.db-shm
+*.db-wal
+*.opendb
