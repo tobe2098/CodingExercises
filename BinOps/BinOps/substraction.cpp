@@ -5,7 +5,19 @@
 
 int bitwiseSubsLoop(int A, int B) {
   // CHATGPT, works, but 32 loops
-  return 0;
+  int result = 0;
+  int carry  = 0;
+
+  for (int position = 0; position < static_cast<int>(sizeof(int) * 8); ++position) { // Times 8 because sizeof os bytes
+    int bitA = getBit(A, position);
+    int bitB = getBit(B, position);
+
+    int sum = bitA ^ bitB ^ carry;
+    carry   = (carry & bitB) || (carry & ~(bitA)) || (bitB & ~(bitA));
+
+    setBit(result, position, sum);
+  }
+  return result;
 }
 
 int bitwiseSubs(int a, int b) {
