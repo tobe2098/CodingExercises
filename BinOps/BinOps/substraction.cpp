@@ -1,22 +1,14 @@
+#include "substraction.hpp"
+#include "addition.hpp"
 #include <conio.h>
 #include <iostream>
-int getBit(int num, int position) {
-  return (num >> position) & 1;
-}
 
-// Function to set the bit at a specific position
-void setBit(int &num, int position, int bit) {
-  if (bit == 1)
-    num |= (1 << position);
-  else
-    num &= ~(1 << position);
-}
-
-int bitwiseMultLoop(int A, int B) {
+int bitwiseSubsLoop(int A, int B) {
   // CHATGPT, works, but 32 loops
   return 0;
 }
-int bitwiseMult(int a, int b) {
+
+int bitwiseSubs(int a, int b) {
   // Made by me, works with negatives and overflows, and less loops
   int carry_over{}, placeholder{}, result{};
   carry_over = (~a) & b;
@@ -28,12 +20,4 @@ int bitwiseMult(int a, int b) {
     carry_over = placeholder;
   }
   return result;
-}
-
-int main() {
-  int a{245}, b{-15};
-  std::cout << "(" << a << ")+(" << b << ")= " << bitwiseMult(a, b) << std::endl;
-  std::cout << "(" << a << ")+(" << b << ")= " << bitwiseMultLoop(a, b) << std::endl;
-  _getch();
-  return 0;
 }
