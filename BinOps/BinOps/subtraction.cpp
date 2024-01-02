@@ -20,7 +20,7 @@ int bitwiseSubsLoop(int A, int B) {
   return result;
 }
 
-int bitwiseSubs(int a, int b) {
+int bitwiseSub(int a, int b) {
   // Made by me, works with negatives and overflows, and less loops
   int carry_over{}, placeholder{}, result{};
   carry_over = (~a) & b;
