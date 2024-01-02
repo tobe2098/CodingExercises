@@ -1,7 +1,7 @@
 #include <conio.h>
 #include <iostream>
 
-int main() {
+int help() {
   // Bitwise AND
   int a          = 5;                                      // 0101 in binary
   int b          = 3;                                      // 0011 in binary
