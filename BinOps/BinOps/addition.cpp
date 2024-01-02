@@ -1,16 +1,4 @@
-#include <conio.h>
-#include <iostream>
-int getBit(int num, int position) {
-  return (num >> position) & 1;
-}
-
-// Function to set the bit at a specific position
-void setBit(int &num, int position, int bit) {
-  if (bit == 1)
-    num |= (1 << position);
-  else
-    num &= ~(1 << position);
-}
+#include "addition.hpp"
 
 int bitwiseAddLoop(int A, int B) {
   // CHATGPT, works, but 32 loops
@@ -41,12 +29,4 @@ int bitwiseAdd(int a, int b) {
     carry_over = placeholder;
   }
   return result;
-}
-
-int main() {
-  int a{-12}, b{-12};
-  std::cout << "(" << a << ")+(" << b << ")= " << bitwiseAddLoop(a, b) << std::endl;
-  _getch();
-  return 0;
-  return 0;
 }
