@@ -1,4 +1,4 @@
-#include "substraction.hpp"
+#include "subtraction.hpp"
 #include "addition.hpp"
 #include <conio.h>
 #include <iostream>
