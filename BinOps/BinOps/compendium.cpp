@@ -1,3 +1,4 @@
+#include <conio.h>
 #include <iostream>
 
 int main() {
@@ -53,5 +54,6 @@ int main() {
   int position_to_toggle = 3;                                 // Toggle bit at position 3 (from the right)
   number ^= (1 << position_to_toggle);                        // Toggle the bit at the given position
   std::cout << "After toggling bit: " << number << std::endl; // Output: 4 (0100 in binary)
+  _getch();
   return 0;
 }
