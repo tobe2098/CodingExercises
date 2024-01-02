@@ -10,9 +10,9 @@ void setBit(int &num, int position, int bit) {
 }
 
 void testBitwiseOp(std::string symbol, int positive, int negative, int (*func)(int, int)) {
-  std::cout << "(" << 2 << ")" << symbol << "(" << positive << ")= " << func(2, positive) << std::endl;
-  std::cout << "(" << -2 << ")" << symbol << "(" << negative << ")= " << func(-2, negative) << std::endl;
-  std::cout << "(" << 1 << ")" << symbol << "(" << negative << ")= " << func(1, negative) << std::endl;
+  std::cout << "(" << positive << ")" << symbol << "(" << 2 << ")= " << func(positive, 2) << std::endl;
+  std::cout << "(" << negative << ")" << symbol << "(" << -2 << ")= " << func(negative, -2) << std::endl;
+  std::cout << "(" << negative << ")" << symbol << "(" << 1 << ")= " << func(negative, 1) << std::endl;
   std::cout << "(" << negative << ")" << symbol << "(" << -negative << ")= " << func(negative, -negative) << std::endl;
   std::cout << "(" << positive << ")" << symbol << "(" << negative << ")= " << func(positive, negative) << std::endl;
 }
