@@ -4,9 +4,7 @@
 #include <array>
 
 
-size_t getNextRow(size_t row, size_t col) {//To find the next square without a number
-    return row + col / 8;
-}
+size_t getNextRow(size_t row, size_t col);
 size_t getNextCol(size_t col);
 size_t getGrid(size_t row, size_t col);
 
