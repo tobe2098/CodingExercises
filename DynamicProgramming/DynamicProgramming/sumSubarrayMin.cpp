@@ -4,7 +4,7 @@ int sumSubarrayMins(std::vector<int> arr) {
     size_t size{ arr.size() };
     std::vector<int> monotonic_stack(1); //Monotonic stack of indices
     std::vector<int> acc(size); //Monotonic stack of indices
-    int res{};
+    int res{ arr[0] };
     // while(minidx<size){
     //     for (size_t i=minidx;i<size;i++){
     //         if (arr[i]<minidx) minidx=i;
