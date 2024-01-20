@@ -2,24 +2,32 @@
 
 int sumSubarrayMins(std::vector<int> arr) {
     size_t size{ arr.size() };
-    std::vector<int> dp(size, 0);
-    int res{ arr[0] };
+    std::vector<int> monotonic_stack(1); //Monotonic stack of indices
+    std::vector<int> acc(size); //Monotonic stack of indices
+    int res{};
     // while(minidx<size){
     //     for (size_t i=minidx;i<size;i++){
     //         if (arr[i]<minidx) minidx=i;
     //     }
     // }
-    dp[0] = arr[0];
+    acc[0] = arr[0];
     for (size_t i = 1; i < size; i++) {
-        if (arr[i] < arr[i - 1]) {
-            dp[i] = arr[i] * (i + 1);
+        while (!monotonic_stack.empty() && arr[i] < arr[monotonic_stack.back()]) {
+            monotonic_stack.pop_back();
+        }
+        
+        if (monotonic_stack.empty()) {
+            acc[i] = (arr[i] * (i + 1));
+            res += acc[i];
+            res %= (static_cast<int>(1e9) + 7);
         }
         else {
-            arr[i] = arr[i - 1];
-            dp[i] = arr[i] + dp[i - 1];
+            acc[i] = (arr[i] * (i - monotonic_stack.back()) + acc[monotonic_stack.back()]);
+            res += acc[i];
+            res %= (static_cast<int>(1e9) + 7);
         }
-        res += dp[i];
-        res %= (static_cast<int>(1e9) + 7);
+
+        monotonic_stack.push_back(i);
     }
     // for (size_t i=0;i<size;i++){
     //     for (size_t j=i;j<size;j++){
