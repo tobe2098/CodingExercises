@@ -21,3 +21,22 @@ std::vector<std::vector<int>> combinationSum(std::vector<int> candidates, int ta
     }
     return std::vector<std::vector<int>>(dp.back().begin(), dp.back().end());
 }
+
+std::vector<std::vector<int>> combinationSum2(std::vector<int> candidates, int target) {
+    std::vector<std::vector<std::vector<int>>> dp(target + 1);
+    size_t size{ dp.size() };
+    for (int num : candidates) {
+        dp[num].push_back(std::vector<int>(1, num));
+        for (size_t i = 0; i < size; i++) {
+            if (i+num< size && !dp[i].empty()) {
+                std::vector<std::vector<int>> temp;
+                std::copy(dp[i].begin(), dp[i].end(), std::back_inserter(temp));
+                for (std::vector<int>& way : temp) {
+                    way.push_back(num);
+                }
+                std::copy(temp.begin(), temp.end(), std::back_inserter(dp[i + num]));
+            }            
+        }
+    }
+    return dp.back();
+}
