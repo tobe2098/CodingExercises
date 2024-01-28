@@ -25,3 +25,5 @@ DynamicProgramming/DynamicProgramming/main.cpp
 *.db-shm
 *.db-wal
 *.opendb
+*.command
+ToUnderstand/.vs/ToUnderstand/v17/.suo
