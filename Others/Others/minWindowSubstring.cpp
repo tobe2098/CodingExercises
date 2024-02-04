@@ -45,3 +45,34 @@ std::string minWindow(std::string s, std::string t) {
     }
     return std::string(s.begin() + bfirst, s.begin() + blast);;
 }
+
+std::string minWindowV2(std::string s, std::string t) {//Terribly slow in terms of comparison
+    // std::unordered_map<char, int> tmap;
+    std::array<int, 58> tmap{};
+    for (char c : t) tmap[c - 'A']++;
+    // std::unordered_map<char, int> tempmap;
+    size_t front{}, back{}, bfirst{}, blast{}, sol_size{ INT_MAX };
+    bool contains{ false };
+    while (back < s.length() || contains) {
+        if (contains) {
+            tmap[s[front] - 'A']++;
+            front++;
+            contains = std::all_of(tmap.begin(), tmap.end(), [](int num) {
+                return num <= 0;
+                });
+        }
+        else {
+            tmap[s[back] - 'A']--;
+            back++;
+            contains = std::all_of(tmap.begin(), tmap.end(), [](int num) {
+                return num <= 0;
+                });
+        }
+        if (contains && back - front < sol_size) {
+            sol_size = back - front;
+            bfirst = front;
+            blast = back;
+        }
+    }
+    return std::string(s.begin() + bfirst, s.begin() + blast);;
+}
