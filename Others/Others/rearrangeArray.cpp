@@ -1,73 +1,20 @@
 #include "rearrangeArray.hpp"
 
 std::vector<int> rearrangeArray(std::vector<int> nums) {
-    size_t ptr1{}, ptr2{};
-    int pos{}, neg{};
-    if (nums[0] < 0) {
-        neg = nums[0];
-        while (nums[ptr2] < 0) {
-            ptr2++;
-        }
-        nums[0] = nums[ptr2];
-        nums[ptr2] = 0;
-    }
-
-    while (ptr1 < nums.size()) {
-        if (nums[ptr1] > 0) {
-            if (pos != 0) {
-                std::swap(pos, nums[ptr1]);
-            }
-            if (ptr1 != 0 && nums[ptr1 - 1] > 0) {
-                ptr2 = ptr1 + 1;
-                pos = nums[ptr1];
-                while (!(nums[ptr2] < 0)) ptr2++;
-                nums[ptr1] = nums[ptr2];
-                nums[ptr2] = 0;
-            }
-            else {}
-        }
-        else if (nums[ptr1] < 0) {
-            if (neg != 0) {
-                std::swap(neg, nums[ptr1]);
-            }
-            if (nums[ptr1 - 1] < 0) {
-                ptr2 = ptr1 + 1;
-                neg = nums[ptr1];
-                while (!(nums[ptr2] > 0)) ptr2++;
-                nums[ptr1] = nums[ptr2];
-                nums[ptr2] = 0;
-            }
-            else {}
+    int n = nums.size();
+    std::vector<int> ans(n);
+    int i = 0, j = 1;
+    for (int k = 0; k < n; k++) {
+        if (nums[k] > 0) {
+            ans[i] = nums[k];
+            i += 2;
         }
         else {
-            if (nums[ptr1 - 1] < 0) {
-                if (pos != 0) {
-                    nums[ptr1] = pos;
-                    pos = 0;
-                }
-                else {
-                    ptr2 = ptr1 + 1;
-                    while (!(nums[ptr2] > 0)) ptr2++;
-                    nums[ptr1] = nums[ptr2];
-                    nums[ptr2] = 0;
-                }
-            }
-            else {
-                if (neg != 0) {
-                    nums[ptr1] = neg;
-                    neg = 0;
-                }
-                else {
-                    ptr2 = ptr1 + 1;
-                    while (!(nums[ptr2] < 0)) ptr2++;
-                    nums[ptr1] = nums[ptr2];
-                    nums[ptr2] = 0;
-                }
-            }
+            ans[j] = nums[k];
+            j += 2;
         }
-        ptr1++;
     }
-    return nums;
+    return ans;
 }
 std::vector<int> rearrangeArrayV2(std::vector<int> nums) {
     std::vector<int> pos, neg;
