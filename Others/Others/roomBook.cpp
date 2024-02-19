@@ -5,30 +5,42 @@ bool comp(std::vector<int>& v1, std::vector<int>& v2) {
 }
 
 int mostBooked(int n, std::vector<std::vector<int>> meetings) {
-    std::sort(meetings.begin(), meetings.end(), &comp);
-    std::vector<std::pair<int, int>> rooms_MnEnd(n, { 0,0 });
+    std::sort(meetings.begin(), meetings.end());
+    std::vector<std::pair<int, long long>> rooms_MnEnd(n, { 0,0 });
     for (std::vector<int>& meet : meetings) {
         bool flag = false;
-        int mindiff{INT_MIN}, minidx{}, idx{};
+        long long val{ LONG_MAX };
+        int minidx{ -1 }, idx{};
+        // for (int j=0;j<n;j++){ Alt loop
+        //     if (rooms_MnEnd[j].second<val){
+        //         val=rooms_MnEnd[j].second;
+        //         minidx=j;
+        //     }
+        //     if (meet[0]>=rooms_MnEnd[j].second){
+        //         flag=true;
+        //         rooms_MnEnd[j].first++;
+        //         rooms_MnEnd[j].second=meet[1];
+        //         break;
+        //     }
+        // }
         for (auto& [count, endTime] : rooms_MnEnd) {
-            int diff{ meet[0] - endTime };
-            if (diff >= 0) {
+            if (endTime < val) {
+                val = endTime;
+                minidx = idx;
+            }
+            if (meet[0] >= endTime) {
                 count++;
                 flag = true;
                 endTime = meet[1];
                 break;
             }
-            else {
-                if (diff > mindiff) {
-                    mindiff = diff;
-                    minidx = idx;
-                }
-            }
+
+
             idx++;
         }
         if (!flag) {
             rooms_MnEnd[minidx].first++;
-            rooms_MnEnd[minidx].second = meet[1] - mindiff;
+            rooms_MnEnd[minidx].second += static_cast<long long>(meet[1] - meet[0]);
         }
     }
     int idx{}, max{};
