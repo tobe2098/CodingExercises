@@ -10,3 +10,5 @@ struct SGraphNode {
 };
 
 std::vector<int> findAllPeople(int n, std::vector<std::vector<int>>& meetings, int firstPerson);
+
+std::vector<int> findAllPeople2(int n, std::vector<std::vector<int>>& meetings, int firstPerson);
