@@ -1,9 +1,11 @@
 #include "canTraverseAllPairs.hpp"
 
+// Function to find the root of a set using path compression
 int getf(std::vector<int>& f, int x) {
     return f[x] == x ? x : (f[x] = getf(f, f[x]));
 }
 
+// Function to merge two sets and update the frequency
 void merge(std::vector<int>& f, std::vector<int>& num, int x, int y) {
     x = getf(f, x);
     y = getf(f, y);
@@ -17,14 +19,15 @@ void merge(std::vector<int>& f, std::vector<int>& num, int x, int y) {
     num[x] += num[y];
 }
 
-bool canTraverseAllPairs(std::vector<int>& nums) {
+bool canTraverseAllPairs(std::vector<int> nums) {
     const int n = nums.size();
     if (n == 1) {
         return true;
     }
 
     // Initialize Union-Find data structures
-    std::vector<int> f(n), num(n);
+    std::vector<int> f(n), num(n); //Num is the "rank" or frequency array, where we store the size of the tree. 
+    //This helps us optimize the merge (always merge smaller to big)
     for (int i = 0; i < n; ++i) {
         f[i] = i;
         num[i] = 1;
@@ -36,16 +39,13 @@ bool canTraverseAllPairs(std::vector<int>& nums) {
     // Iterate through the array to find common prime factors and perform Union-Find
     for (int i = 0; i < n; ++i) {
         int x = nums[i];
-        if (x == 1) {
-            return false;
-        }
-
+        if (x == 1) return false;
         // Iterate through prime factors of x
         for (int d = 2; d * d <= x; ++d) {
             if (x % d == 0) {
                 // If the prime factor is encountered before, merge the sets
                 if (have.count(d)) {
-                    merge(f, num, i, have[d]);
+                    merge(f, num, i, have[d]);//You are not merging the prime but the first index where the prime is found
                 }
                 else {
                     // Otherwise, store the index for this prime factor
@@ -69,5 +69,5 @@ bool canTraverseAllPairs(std::vector<int>& nums) {
     }
 
     // Check if all indices belong to the same connected component
-    return num[getf(f, 0)] == n;
+    return num[getf(f, 0)] == n;//Size of the union set
 }
