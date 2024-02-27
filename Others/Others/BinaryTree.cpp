@@ -18,7 +18,7 @@ namespace bintree {
 
             ++i;
             if (i < arr.size() && arr[i] != -1) {
-                parent->right = new :TreeNode(arr[i]);
+                parent->right = new TreeNode(arr[i]);
                 nodes.push(parent->right);
             }
         }
