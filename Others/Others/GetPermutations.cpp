@@ -34,6 +34,15 @@ namespace getPerm {
         return sol;
     }
     std::string getPermutationFast(int n, int k) {
+        /*Take n=3 as an example.
+There are 3! permuatation which are [123,132,213,231,312,321].
+As we can see there are 2 permutations start with "1".
+There are also 2 permutations start with "2" and start with "2".
+
+We can look at the n-permuation formula to get some insight:
+The formula means we have n possibilities to choose 1st element. And if this is chosen, we still need to permutate remaining (n-1) elements; there are (n-1)! possiblities of permutatation of (n-1) elements.
+
+In other word, there are (n-1)! permutations start with 1, with 2, with 3 etc.*/
         int fact = 1; std::vector<int> x;
         for (int i = 1; i < n; i++) {
             fact *= i;
