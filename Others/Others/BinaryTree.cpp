@@ -1,6 +1,6 @@
 #include "BinaryTree.hpp"
 namespace bintree {
-    TreeNode* createTreeFromArray(const std::vector<int>& arr) {
+    TreeNode* createTreeFromArray(std::vector<int> arr) {
         if (arr.empty()) return nullptr;
 
         std::queue<TreeNode*> nodes;

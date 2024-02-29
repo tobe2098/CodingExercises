@@ -12,7 +12,7 @@ namespace bintree {
     };
 
     // Function to create a tree from an array and return the root node
-    TreeNode* createTreeFromArray(const std::vector<int>& arr);
+    TreeNode* createTreeFromArray(std::vector<int> arr);
 
     // Function to free the memory of the tree
     void freeTree(TreeNode* root);
