@@ -31,3 +31,35 @@ bool evenOddTree::isEvenOddTree(TreeNode* root) {
     }
     return true;
 }
+
+bool evenOddTree::isEvenOddTreeFast(TreeNode* root){
+    //Should be twice as fast, one traversal
+    std::queue<TreeNode*> q;
+    q.push(root);
+    int level = 0;
+    while (!q.empty())
+    {
+        int size = q.size();
+        int mx = INT_MIN, mn = INT_MAX;
+        while (size--)
+        {
+            TreeNode* front = q.front();  q.pop();
+            if (front->left)  q.push(front->left);
+            if (front->right)  q.push(front->right);
+            if ((level & 1) == 0)
+            {
+                if (!(front->val & 1))  return false;
+                if (front->val > mx)  mx = front->val;
+                else return false;
+            }
+            else
+            {
+                if (front->val & 1)  return false;
+                if (front->val < mn)  mn = front->val;
+                else return false;
+            }
+        }
+        level++;
+    }
+    return true;
+}
