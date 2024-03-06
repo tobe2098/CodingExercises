@@ -23,3 +23,19 @@ bool listHasCycle(list::ListNode* head) {
     // if traversal reaches to NULL this means no cycle.
     return false;
 }
+
+list::ListNode* detectCycle(list::ListNode* head) {
+    list::ListNode* fast{ head }, * slow{ head };
+    while (fast && fast->next) {
+        fast = fast->next->next;
+        slow = slow->next;
+        if (fast == slow) break;
+    }
+    if (!fast || !fast->next) return nullptr;
+    slow = head;
+    while (fast != slow) {
+        fast = fast->next;
+        slow = slow->next;
+    }
+    return slow;
+}
