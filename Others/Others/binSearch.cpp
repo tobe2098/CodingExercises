@@ -10,7 +10,7 @@ bool searchMatrix(std::vector<std::vector<int>> matrix, int target) {
         }
         else {
             p2 = m-1;
-        }
+        } 
     }
     int index = p1;
     p1 = 0;
