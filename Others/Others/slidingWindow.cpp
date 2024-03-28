@@ -53,3 +53,27 @@ int numSubarrayProductLessThanKOptimal2(std::vector<int> nums, int k) {
     }
     return res;
 }
+
+int maxSubarrayLength(std::vector<int> nums, int k) {
+    std::unordered_map<int, int> map;
+    int ptr1{}, ptr2{};
+    int longest{};
+    for (; ptr2 < nums.size();) {
+        map[nums[ptr2]]++;
+        while (ptr1<ptr2 && map[nums[ptr2]]>k) {//Missed this
+            map[nums[ptr1]]--;
+            ptr1++;
+        }
+        ptr2++;
+        if (ptr2 - ptr1 > longest) longest = ptr2 - ptr1;
+        //Sanitize the map
+        // if (ptr2%1000==0)for (auto it = map.begin(); it != map.end(); ) {
+        //     if (it->second == 0) {
+        //         it = map.erase(it);
+        //     } else {
+        //         ++it;
+        //     }
+        // }
+    }
+    return longest;
+}
