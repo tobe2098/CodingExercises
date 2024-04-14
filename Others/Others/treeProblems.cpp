@@ -1,6 +1,21 @@
-#include "treeDiameter.hpp"
-
+#include "treeProblems.hpp"
 namespace bintree {
+    int leftLeaves::sumOfLeftLeaves(TreeNode* root) {
+        int sum{};
+        if (root->left) {
+            if (root->left->left || root->left->right) {
+                sum += sumOfLeftLeaves(root->left);
+
+            }
+            else {
+                sum += root->left->val;
+            }
+        }
+        if (root->right) {
+            sum += sumOfLeftLeaves(root->right);
+        }
+        return sum;
+    }
     namespace diameter {
         int helper(TreeNode* root) {
             if (root->left == nullptr && root->right == nullptr) {
@@ -23,4 +38,3 @@ namespace bintree {
         }
     }
 }
-
