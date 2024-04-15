@@ -17,6 +17,7 @@ namespace bintree {
         return sum;
     }
     namespace diameter {
+        int result{};
         int helper(TreeNode* root) {
             if (root->left == nullptr && root->right == nullptr) {
                 return 1;
@@ -36,5 +37,30 @@ namespace bintree {
             helper(root);
             return result;
         }
+    }
+    namespace composedNums {
+        std::vector<std::string> nums;
+
+        void helper(TreeNode* root, std::string carry) {
+            bool right{ static_cast<bool>(root->right) }, left{ static_cast<bool>(root->left) };
+            carry.push_back(root->val + '0');
+            if (right) {
+                helper(root->right, carry);
+            } if (left) {
+                helper(root->left, carry);
+            } if (!right && !left) {
+                nums.push_back(carry);
+            }
+        }
+
+        int sumNumbers(TreeNode* root) {
+            helper(root, "");
+            int sol{};
+            for (std::string& s : nums) {
+                sol += std::stoi(s);
+            }
+            return sol;
+        }
+
     }
 }
