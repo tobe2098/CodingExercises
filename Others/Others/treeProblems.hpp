@@ -14,4 +14,7 @@ namespace bintree {
         void helper(TreeNode* root, std::string carry);
         int sumNumbers(TreeNode* root);
     }
+    namespace rowman {
+        TreeNode* addOneRow(TreeNode* root, int val, int depth);
+    }
 }
