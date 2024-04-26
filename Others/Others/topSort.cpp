@@ -25,7 +25,7 @@ std::vector<int> findMinHeightTrees(int n, std::vector<std::vector<int>> edges) 
     }
     std::vector<int> sol;
     for (int i = 0; i < n; i++) {
-        if (!erased.contains(n)) sol.push_back(i);
+        if (!erased.contains(i)) sol.push_back(i);
     }
     return sol;
 }
