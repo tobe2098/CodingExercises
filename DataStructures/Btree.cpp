@@ -43,16 +43,22 @@ void BTree::splitChild(Node* parent, int index, Node* child) {
 }
 
 void BTree::insertNonFull(Node* node, int key) {
+    int i = node->keys.size() - 1;
     // Handle insertion in a leaf node
     if (node->isLeaf()) {
-        node->keys.push_back(key);
+        node->keys.push_back(0); // Add a dummy value to increase the size
+        while (i >= 0 && key < node->keys[i]) {
+            node->keys[i + 1] = node->keys[i];
+            i--;
+        }
+        node->keys[i + 1] = key;
     }
     else {
         // Find the appropriate child node for insertion
-        int i = 0;
-        while (i < node->keys.size() && key > node->keys[i]) {
-            i++;
+        while (i >= 0 && key < node->keys[i]) {
+            i--;
         }
+        i++;
 
         // If the child node is full, split it
         if (node->C[i]->keys.size() == 2 * minimum_keys - 1) {
@@ -74,7 +80,7 @@ void BTree::insert(int key) {
         // Handle root node overflow (split if necessary)
         Node* newRoot = new Node;
         newRoot->C.push_back(root);
-        if (newRoot->keys.size() == 2 * minimum_keys - 1) {
+        if (root->keys.size() == 2 * minimum_keys - 1) {
             splitChild(newRoot, 0, root);
             // (splitChild implementation continued from previous code)
         }
