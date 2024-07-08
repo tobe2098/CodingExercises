@@ -1,5 +1,6 @@
 #ifndef _UNION_FIND_HEADER_
 #define _UNION_FIND_HEADER_
+#define NULL 0
 
 typedef struct {
     /* data */

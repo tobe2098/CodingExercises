@@ -4,6 +4,8 @@ int UnionFindByRank_alloc(UnionFindByRank *unionfind, int size) {
   int *parents = (int *)malloc(size * sizeof(int));
   int *rank    = (int *)malloc(size * sizeof(int));
   if (!(rank && parents)) {
+    free(parents);
+    free(rank);
     return -1;
   }
   for (int i = 0; i < size; i++) {
@@ -21,7 +23,9 @@ int UnionFindByRank_free(UnionFindByRank *unionfind) {
     return -1;
   }
   free(unionfind->parents);
+  unionfind->parents = NULL;
   free(unionfind->rank);
+  unionfind->rank = NULL;
   unionfind->size = 0;
   return 0;
 }
