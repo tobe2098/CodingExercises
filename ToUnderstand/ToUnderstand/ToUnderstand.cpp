@@ -1,11 +1,12 @@
 // ToUnderstand.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+#include "sortingAlgos.hpp"
+int main() {
 
-#include <iostream>
+	radixSortAll({ 5,1,1,2,0,0,INT_MIN });
 
-int main()
-{
-    std::cout << "Hello World!\n";
+
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
