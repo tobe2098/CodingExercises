@@ -139,3 +139,29 @@ std::vector<int> radixSortAll(std::vector<int> nums){
     return negs;
 }
 
+std::vector<int> quickSortWrapper(std::vector<int> nums){
+    quicksortInPlace(nums, 0, nums.size()-1);
+    return nums;
+}
+
+void quicksortInPlace(std::vector<int>& nums, int start, int end) {
+    if (end - start <= 0) return;
+    int mid{ start + (end - start) / 2 };
+    int medianIdx{ getMedianIndex(nums[start],start,nums[mid],mid,nums[end],end) };
+    std::swap(nums[start], nums[medianIdx]);
+    int p1{ start + 1 }, p2{ end };
+    int pivot{nums[start]};
+    while (p1 <= p2) {
+        while (p1 <= p2 && nums[p1] <= pivot) p1++;
+        while (p1 <= p2 && nums[p2] >= pivot) p2--;
+        if (p1 < p2) {
+            std::swap(nums[p1], nums[p2]);
+            p1++;
+            p2--;
+        }
+    }
+    std::swap(nums[start], nums[p2]);
+    quicksortInPlace(nums, start, p2 - 1);
+    quicksortInPlace(nums, p2 + 1, end);
+}
+

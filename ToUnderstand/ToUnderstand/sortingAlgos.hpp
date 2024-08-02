@@ -1,4 +1,6 @@
 #pragma once
+
+#include "mathOptimized.hpp"
 #include <vector>
 #include <array>
 
@@ -12,3 +14,6 @@ void merge(std::vector<int>& nums, int left, int mid, int right, std::vector<int
 void radix(std::vector<int>& nums, int bits, int min_num, int mask, int shifts, std::vector <std::vector< int >>& buckets);
 std::vector<int> radixSortFixed(std::vector<int> nums); 
 std::vector<int> radixSortAll(std::vector<int> nums);
+
+std::vector<int> quickSortWrapper(std::vector<int> nums);
+void quicksortInPlace(std::vector<int>& nums, int start, int end);

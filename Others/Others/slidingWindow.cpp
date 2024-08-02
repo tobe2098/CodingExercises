@@ -77,3 +77,24 @@ int maxSubarrayLength(std::vector<int> nums, int k) {
     }
     return longest;
 }
+
+int minSwaps(std::vector<int> nums) {
+    if (nums.size() == 1)return 0;
+    const int tot{ std::reduce(nums.begin(), nums.end()) };
+    // if (tot==0) return 0;
+    int p2 = nums.size() - tot + 1, p1{ p2 - 1 };
+    int cur{};
+    for (int i = 0; i < tot; i++) {
+        if (nums[++p1]) cur++;
+        if (p1 == nums.size() - 1) p1 = -1;
+    }
+    cur = tot - cur;
+    int min{ cur };
+    while (p1 < nums.size()-1) {
+        if (!nums[++p1]) cur++;
+        if (!nums[p2++]) cur--;
+        if (p2 == nums.size())p2 = 0;
+        if (cur < min) min = cur;
+    }
+    return min;
+}
