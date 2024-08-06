@@ -165,3 +165,55 @@ void quicksortInPlace(std::vector<int>& nums, int start, int end) {
     quicksortInPlace(nums, p2 + 1, end);
 }
 
+std::vector<int> bubbleSort(std::vector<int> nums) {
+    bool sorted{ false};
+    while (!sorted) {
+        sorted = true;
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i - 1] > nums[i]) {
+                std::swap(nums[i], nums[i - 1]);
+                sorted = false;
+            }
+        }
+    }
+    return nums;
+
+}
+
+std::vector<int> selectionSort(std::vector<int> nums){
+    for (int i = 0; i < nums.size(); i++) {
+        int min{INT_MAX}, midx{};
+        for (int j = i; j < nums.size(); j++) {
+            if (nums[j] < min) {
+                midx = j;   
+                min = nums[j];
+            }
+        }
+        std::swap(nums[i], nums[midx]);
+    }
+    return nums;
+}
+
+std::vector<int> insertionSortQ(std::vector<int> nums){
+    //Not clear why would I do this with insertions and not swapping, unless you do memcpy from index to index, which would make sense in C
+    for (int i = 1; i < nums.size(); i++) {
+        int c{ i };
+        for (int j = i - 1; j >= 0; j--) {
+            if (nums[j] > nums[c]) {
+                std::swap(nums[j], nums[c]);
+                c = j;
+            }
+            else break;
+        }
+    }
+    return nums;
+}
+
+std::vector<int> heapSort(std::vector<int> nums){
+    makeMaxHeap(nums,nums.size());
+    for (int i = nums.size()-1; i >=0 ; i--) {
+        std::swap(nums[0], nums[i]);
+        maxHeapify(nums, 0,i);
+    }
+    return nums;
+}

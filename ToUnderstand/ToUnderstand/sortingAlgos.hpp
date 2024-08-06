@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mathOptimized.hpp"
+#include "../../DataStructures/maxHeap.hpp"
 #include <vector>
 #include <array>
 
@@ -17,3 +18,10 @@ std::vector<int> radixSortAll(std::vector<int> nums);
 
 std::vector<int> quickSortWrapper(std::vector<int> nums);
 void quicksortInPlace(std::vector<int>& nums, int start, int end);
+
+
+std::vector<int> bubbleSort(std::vector<int> nums);
+std::vector<int> selectionSort(std::vector<int> nums); 
+std::vector<int> insertionSortQ(std::vector<int> nums);
+
+std::vector<int> heapSort(std::vector<int> nums);

@@ -2,8 +2,8 @@
 //
 #include "sortingAlgos.hpp"
 int main() {
-
-	quickSortWrapper({ 5,1,1,2,0,0,INT_MIN });
+	std::vector<int> v{ 5,1,1,2,0,0,INT_MIN };
+	heapSort(v);
 
 
 	return 0;
