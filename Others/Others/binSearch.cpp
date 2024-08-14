@@ -62,3 +62,38 @@ int minDays(std::vector<int> bloomDay, int m, int k) {
     }
     return min;
 }
+
+int numKthPairDistances(std::vector<int>& nums, int bound) {
+    int sol{};
+    int i = 0, j = 1;
+    while ( j<nums.size()) {
+        while (j < nums.size() && nums[j] - nums[i] <= bound)j++;
+        sol += j-1 - i;
+        i++;
+    }
+    while (i < j) {
+        sol += j - 1 - i;
+        i++;
+    }
+    return sol;
+}
+
+int returnKthDistancePair(std::vector<int>& nums, int k) {
+    int l{}, r{ nums.back()};
+    while (l < r) {
+        int mid{ l + (r - l) / 2 };
+        int res{ numKthPairDistances(nums, mid) };
+        if (res < k) {
+            l = mid + 1;
+        }
+        else {
+            r = mid;
+        }
+    }
+    return l;
+}
+
+int smallestDistancePair(std::vector<int> nums, int k) {
+    std::sort(nums.begin(), nums.end());
+    return returnKthDistancePair(nums, k);
+}
