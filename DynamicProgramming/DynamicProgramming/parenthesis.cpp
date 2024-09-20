@@ -11,48 +11,71 @@ int oper(int a, int b, char op) {
         return a * b;
     }
 }
-void rec(std::vector<int>& sol, std::string& expression, std::unordered_map<std::string, int>& map, int opcount) {
-    if (map.count(expression) > 0) return;
-    if (opcount == 0) {
-        sol.push_back(std::stoi(expression));
-        return;
+std::vector<int> rec(std::vector<int> res, std::string expression) {
+    if (expression.size() == 0) return res;
+    if (expression.size()<3){
+        res.push_back(std::stoi(expression));
+        return res;
     }
-    std::string num1, num2, cons, rep;
-    char op{};
     for (int i = 0; i < expression.size(); i++) {
-        if (num2.empty() || expression[i] != '+' && expression[i] != '-' && expression[i] != '*') {
-            num2.push_back(expression[i]);
-            continue;
+        if (expression[i] != '+' && expression[i] != '*' && expression[i] != '-') continue;
+        char op{ expression[i] };
+        std::vector<int> left{ rec({},expression.substr(0,i)) }, right{ rec({}, expression.substr(i + 1,expression.size() - i)) };
+        for (int l : left) for (int r : right) {
+            res.push_back(oper(l, r, op));
         }
-        if (num1.empty()) {
-            cons.append(num2);
-            cons.push_back(expression[i]);
-            op = expression[i];
-            num1.swap(num2);
-            continue;
-        }
-        int res{ oper(std::stoi(num1),std::stoi(num2),op) };
-        rep.append(std::to_string(res));
-        for (int j = i; j < expression.size(); j++) rep.push_back(expression[j]);
-        rec(sol, rep, map, opcount - 1);
-        rep = cons;
-        num1 = num2;
-        num2.clear();
-        op = expression[i];
-        cons.append(num1);
-        cons.push_back(expression[i]);
+
+
     }
-    int res{ oper(std::stoi(num1),std::stoi(num2),op) };
-    rep.append(std::to_string(res));
-    rec(sol, rep, map, opcount - 1);
-    map[expression]++;
+    return res;
 }
 
-std::vector<int> diffWaysToCompute(std::string expression) {
-    int opcount{};
-    for (char c : expression) opcount += (c == '+' || c == '-' || c == '*');
-    std::vector<int> sol;
-    std::unordered_map<std::string, int> map;
-    rec(sol, expression, map, opcount);
-    return sol;
+std::vector<int> rec2(std::string& expression, std::vector<std::vector<std::vector<int>>>& memo, int begin, int end) {
+    if (begin == end) {
+        return { expression[begin] - '0' };
+    }
+    if (end - begin < 2) {
+        return { (expression[begin] - '0') * 10 + expression[end] - '0' };
+    }
+    if (!memo[begin][end].empty()) return memo[begin][end];
+    for (int i = begin; i <= end; i++) {
+        if (isdigit(expression[i])) continue;
+        char oper{ expression[i] };
+        std::vector<int> left{ rec2(expression, memo, begin, i - 1) }, right{ rec2(expression, memo, i + 1, end) };
+        for (int l : left) for (int r : right) memo[begin][end].push_back(oper(l, r, oper));
+    }
+    return memo[begin][end];
 }
+ std::vector<int> diffWaysToComputeRec(std::string expression) {
+     return rec({},expression);
+}
+
+ std::vector<int> diffWaysToComputeMemo(std::string expression)
+ {
+     std::vector<std::vector<std::vector<int>>> memo(expression.size(), std::vector<std::vector<int>>(expression.size()));
+     return rec2(expression, memo, 0, expression.size()-1);
+ }
+
+ std::vector<int> diffWaysToComputeTab(std::string expression) {
+     //Resolve with tabular 2D
+     std::vector<std::vector<std::vector<int>>> dp(expression.size(), std::vector<std::vector<int>>(expression.size(), std::vector<int>()));
+     for (int i = 0; i < expression.size(); i++) {
+         if (!isdigit(expression[i])) continue;
+         if (i + 1 < expression.size() && isdigit(expression[i + 1])) {
+             dp[i][i + 1].push_back((expression[i] - '0') * 10 + (expression[i + 1] - '0'));
+         }
+         else {
+             dp[i][i].push_back((expression[i] - '0'));
+         }
+     }
+     for (int len = 3; len <= expression.size(); len++) for (int start = 0; start + len <= expression.size(); start++) {
+         for (int split = start + 1; split < start + len - 1; split++) {
+             if (isdigit(expression[split])) continue;
+             std::vector<int>& left{ dp[start][split - 1] }, & right{ dp[split + 1][start + len - 1] };
+             // for (int l:left) for (int r:right) dp[0][0].push_back(op(l,r,expression[split]));
+             for (int l : left) for (int r : right) dp[start][start + len - 1].push_back(oper(l, r, expression[split]));
+         }
+     }
+     // return dp.front().front();
+     return dp.front().back();
+ }
