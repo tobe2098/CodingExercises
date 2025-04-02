@@ -1,10 +1,13 @@
 // #undef UNICODE
-#define UNICODE
+// #define UNICODE
+#include <conio.h>  // _kbhit for non-blocking input
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <windows.h>
 #include <iostream>
+constexpr int buffsize = 128;
+
 wchar_t* ConvertCharToWChar(const char* charStr) {
   // Only in pure Windows, Visual studio?
   int      sizeNeeded = MultiByteToWideChar(CP_UTF8, 0, charStr, -1, NULL, 0);
@@ -12,8 +15,34 @@ wchar_t* ConvertCharToWChar(const char* charStr) {
   MultiByteToWideChar(CP_UTF8, 0, charStr, -1, wStr, sizeNeeded);
   return wStr;  // Remember to delete[] when done
 }
-constexpr int buffsize = 100;
 
+void ReadFromPipe(HANDLE hPipe) {
+  char* buffer = new char[buffsize];
+  DWORD bytesRead;
+  while (true) {
+    // Check if data is available in the pipe (non-blocking)
+    if (_kbhit()) {
+      // Do other work if needed
+      std::cout << "Doing something else while waiting for the child process output..." << std::endl;
+    }
+
+    // Read the output from the pipe (non-blocking)
+    if (ReadFile(hPipe, buffer, buffsize - 1, &bytesRead, NULL)) {
+      if (bytesRead > 0) {
+        buffer[bytesRead] = '\0';  // Null-terminate the string
+        std::cout << "Child Process Output: " << buffer << std::endl;
+      }
+    } else {
+      DWORD error = GetLastError();
+      if (error != ERROR_IO_PENDING) {
+        break;  // Exit loop if error occurs
+      }
+    }
+
+    // Sleep for a bit to simulate doing other work (non-blocking)
+    Sleep(100);  // Non-blocking sleep
+  }
+}
 int main(void) {
 #ifndef _WIN32
   // Linux
@@ -54,7 +83,7 @@ int main(void) {
   free(buffer);
 #else
   const WCHAR* bufff;
-  HANDLE       hFile = CreateFile(ConvertCharToWChar("example.txt"), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, NULL);
+  HANDLE       hFile = CreateFileA("example.txt", GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, NULL);
   if (hFile == INVALID_HANDLE_VALUE) {
     std::cerr << "Failed to open file." << std::endl;
     return 1;
@@ -75,6 +104,15 @@ int main(void) {
 
   std::cout << "Read: " << buffer << std::endl;
   CloseHandle(hFile);
+
+  SECURITY_ATTRIBUTES sa = { sizeof(SECURITY_ATTRIBUTES), NULL, TRUE };
+  HANDLE              hReadPipe, hWritePipe;
+  if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, 0)) {
+    std::cerr << "Error creating pipe." << std::endl;
+    return 1;
+  }
+
 #endif
+
   return 0;
 }
