@@ -7,7 +7,7 @@ class A {
     int number2;
 
   public:
-    explicit A(int _number): number(_number), number2(0) { cout << "Normal constructor\n"; }
+    A(int _number): number(_number), number2(0) { cout << "Normal constructor\n"; }
     A() { cout << "Default constructor\n"; }
 
     A(const A& source) {
@@ -38,4 +38,6 @@ int main() {
   vector<A> v4(2);  //(4)
   v4 = v2;          //(4)
   return 0;
+  A a;
+  // v4.push_back(&a);
 }
